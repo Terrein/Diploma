@@ -1,3 +1,4 @@
+import os
 from app import app
 
 if os.environ.get('APP_LOCATION') == 'heroku':
