@@ -1,7 +1,7 @@
 from app import app,db
 from flask import render_template,request, url_for,redirect
 from app.models import Auto, Jornal
-from datetime import datetime
+from datetime import datetime, timedelta
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -111,7 +111,7 @@ def auto_detail(auto_id):
                 if auto.status == True:
                     check_status ='Занят'
                     Auto.query.filter_by(id = auto_id).update({"status":0})                   
-                    db.session.add(Jornal(auto_id = auto_id,rent_start = datetime.now()))
+                    db.session.add(Jornal(auto_id = auto_id,rent_start = datetime.now()+timedelta(hours=3)))
                     db.session.commit()
                     
 
@@ -122,7 +122,7 @@ def auto_detail(auto_id):
                     Auto.query.filter_by(id = auto_id).update({"status":1})
                     for jornal in jornal_list:
                         if jornal.rent_end == None:
-                           jornal.rent_end =  datetime.now()
+                           jornal.rent_end =  datetime.now() + timedelta(hours=3)
                            count_date_sec = (jornal.rent_end-jornal.rent_start).seconds
                            count_date = divmod(count_date_sec,60)
                            cost = auto.price*count_date[0] +  auto.price/60*count_date[1]
