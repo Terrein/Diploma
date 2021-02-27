@@ -50,21 +50,9 @@ def auto_detail(auto_id):
             for jornal_el in jornal_list:
                 db.session.delete(jornal_el)
             db.session.commit()
-            context = {
-                'id' : auto.id,
-                'name' : auto.name,
-                'description' : auto.description,
-                'price' : auto.price,
-                'transmission' : check_transmission,
-                'img_url1' : auto.img_url1,
-                'img_url2' : auto.img_url2,
-                'img_url3' : auto.img_url3,
-                'img_url4' : auto.img_url4,
-                'status' : check_status,
-                'jornal_list' : jornal_list,
-            }
+            
             return redirect(url_for('index'))
-            # render_template('auto_detail.html', **context)   
+            
    
 
         if request.form.get("change"):
@@ -116,20 +104,7 @@ def auto_detail(auto_id):
             else:
                 check_status = 'Занят'
 
-            context = {
-            'id' : auto.id,
-            'name' : auto.name,
-            'description' : auto.description,
-            'price' : auto.price,
-            'transmission' : check_transmission,
-            'img_url1' : auto.img_url1,
-            'img_url2' : auto.img_url2,
-            'img_url3' : auto.img_url3,
-            'img_url4' : auto.img_url4,
-            'status' : check_status,
-            'jornal_list' : jornal_list,
-            }
-            return render_template('auto_detail.html', **context)
+            
             
         if request.form.get("rent"):
             if request.method == 'POST':
@@ -138,20 +113,7 @@ def auto_detail(auto_id):
                     Auto.query.filter_by(id = auto_id).update({"status":0})                   
                     db.session.add(Jornal(auto_id = auto_id,rent_start = datetime.now()))
                     db.session.commit()
-                    context = {
-                        'id' : auto.id,
-                        'name' : auto.name,
-                        'description' : auto.description,
-                        'price' : auto.price,
-                        'transmission' : check_transmission,
-                        'img_url1' : auto.img_url1,
-                        'img_url2' : auto.img_url2,
-                        'img_url3' : auto.img_url3,
-                        'img_url4' : auto.img_url4,
-                        'status' : check_status,
-                        'jornal_list' : jornal_list,
-                        }
-                    return render_template('auto_detail.html', **context)   
+                    
 
         if request.form.get("free"):    
             if request.method == 'POST': 
@@ -166,20 +128,7 @@ def auto_detail(auto_id):
                            cost = auto.price*count_date[0] +  auto.price/60*count_date[1]
                            jornal.cost = cost 
                            db.session.commit()
-                           context = {
-                            'id' : auto.id,
-                            'name' : auto.name,
-                            'description' : auto.description,
-                            'price' : auto.price,
-                            'transmission' : check_transmission,
-                            'img_url1' : auto.img_url1,
-                            'img_url2' : auto.img_url2,
-                            'img_url3' : auto.img_url3,
-                            'img_url4' : auto.img_url4,
-                            'status' : check_status,
-                            'jornal_list' : jornal_list,
-                            }
-                           return render_template('auto_detail.html', **context)   
+                           
 
     context = {
         'id' : auto.id,
